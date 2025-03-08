@@ -21,7 +21,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         UserDetails userDetails = authenticationService.authenticate(
                 loginRequest.getEmail(),
-                loginRequest.getEmail()
+                loginRequest.getPassword()
         );
 
         String tokenValue = authenticationService.generateToken(userDetails);
