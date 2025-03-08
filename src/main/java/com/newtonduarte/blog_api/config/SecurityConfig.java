@@ -1,5 +1,6 @@
 package com.newtonduarte.blog_api.config;
 
+import com.newtonduarte.blog_api.domain.entities.User;
 import com.newtonduarte.blog_api.repositories.UserRepository;
 import com.newtonduarte.blog_api.security.BlogUserDetailsService;
 import com.newtonduarte.blog_api.security.JwtAuthenticationFilter;
@@ -26,7 +27,20 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return new BlogUserDetailsService(userRepository);
+        BlogUserDetailsService blogUserDetailsService = new BlogUserDetailsService(userRepository);
+
+        String email = "user@test.com";
+        userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = User.builder()
+                    .name("Test User")
+                    .email(email)
+                    .password(passwordEncoder().encode("password"))
+                    .build();
+
+            return userRepository.save(newUser);
+        });
+
+        return blogUserDetailsService;
     }
 
     @Bean
