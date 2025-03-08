@@ -2,6 +2,7 @@ package com.newtonduarte.blog_api.mappers;
 
 import com.newtonduarte.blog_api.domain.PostStatus;
 import com.newtonduarte.blog_api.domain.dtos.CategoryDto;
+import com.newtonduarte.blog_api.domain.dtos.CreateCategoryRequest;
 import com.newtonduarte.blog_api.domain.entities.Category;
 import com.newtonduarte.blog_api.domain.entities.Post;
 import org.mapstruct.Mapper;
@@ -15,6 +16,8 @@ import java.util.List;
 public interface CategoryMapper {
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
     CategoryDto toDto(Category category);
+
+    Category toEntity(CreateCategoryRequest createCategoryRequest);
 
     @Named("calculatePostCount")
     default long calculatePostCount(List<Post> posts) {
