@@ -3,7 +3,6 @@ package com.newtonduarte.blog_api.domain.entities;
 import com.newtonduarte.blog_api.domain.PostStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -33,6 +32,10 @@ public class Post {
 
     @Column(nullable = false)
     private Integer readingTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
