@@ -1,7 +1,7 @@
 package com.newtonduarte.blog_api.controllers;
 
 import com.newtonduarte.blog_api.domain.dtos.CreateTagsRequest;
-import com.newtonduarte.blog_api.domain.dtos.TagResponse;
+import com.newtonduarte.blog_api.domain.dtos.TagDto;
 import com.newtonduarte.blog_api.domain.entities.Tag;
 import com.newtonduarte.blog_api.mappers.TagMapper;
 import com.newtonduarte.blog_api.services.TagService;
@@ -22,19 +22,19 @@ public class TagController {
 
 
     @GetMapping
-    public ResponseEntity<List<TagResponse>> getTags() {
+    public ResponseEntity<List<TagDto>> getTags() {
         List<Tag> tags = tagService.getTags();
-        List<TagResponse> tagsResponse = tags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> tagsResponse = tags.stream().map(tagMapper::toTagResponse).toList();
 
         return ResponseEntity.ok(tagsResponse);
     }
 
     @PostMapping
-    public ResponseEntity<List<TagResponse>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
         List<Tag> savedTags = tagService.createTags(createTagsRequest.getNames());
-        List<TagResponse> createdTagResponses = savedTags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> createdTagRespons = savedTags.stream().map(tagMapper::toTagResponse).toList();
         return new ResponseEntity<>(
-                createdTagResponses,
+                createdTagRespons,
                 HttpStatus.CREATED
         );
     }
