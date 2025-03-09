@@ -4,6 +4,7 @@ import com.newtonduarte.blog_api.domain.PostStatus;
 import com.newtonduarte.blog_api.domain.entities.Category;
 import com.newtonduarte.blog_api.domain.entities.Post;
 import com.newtonduarte.blog_api.domain.entities.Tag;
+import com.newtonduarte.blog_api.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,5 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllByStatusAndCategory(PostStatus status, Category category);
     List<Post> findAllByStatusAndTagsContaining(PostStatus postStatus, Tag tag);
     List<Post> findAllByStatus(PostStatus postStatus);
+    List<Post> findAllByAuthorAndStatus(User author, PostStatus postStatus);
 }
