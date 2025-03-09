@@ -1,6 +1,8 @@
 package com.newtonduarte.blog_api.mappers;
 
 
+import com.newtonduarte.blog_api.domain.CreatePostRequest;
+import com.newtonduarte.blog_api.domain.dtos.CreatePostRequestDto;
 import com.newtonduarte.blog_api.domain.dtos.PostDto;
 import com.newtonduarte.blog_api.domain.entities.Post;
 import org.mapstruct.Mapper;
@@ -13,4 +15,5 @@ public interface PostMapper {
     @Mapping(target = "category", source = "category")
     @Mapping(target = "tags", source = "tags")
     PostDto toDto(Post post);
+    CreatePostRequest toCreatePostRequest(CreatePostRequestDto dto);
 }
