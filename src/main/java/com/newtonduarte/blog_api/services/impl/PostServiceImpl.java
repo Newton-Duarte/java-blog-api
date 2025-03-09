@@ -4,6 +4,7 @@ import com.newtonduarte.blog_api.domain.PostStatus;
 import com.newtonduarte.blog_api.domain.entities.Category;
 import com.newtonduarte.blog_api.domain.entities.Post;
 import com.newtonduarte.blog_api.domain.entities.Tag;
+import com.newtonduarte.blog_api.domain.entities.User;
 import com.newtonduarte.blog_api.repositories.PostRepository;
 import com.newtonduarte.blog_api.services.CategoryService;
 import com.newtonduarte.blog_api.services.PostService;
@@ -53,5 +54,10 @@ public class PostServiceImpl implements PostService {
         }
 
         return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+    }
+
+    @Override
+    public List<Post> getDraftPosts(User user) {
+        return postRepository.findAllByAuthorAndStatus(user, PostStatus.DRAFT);
     }
 }
