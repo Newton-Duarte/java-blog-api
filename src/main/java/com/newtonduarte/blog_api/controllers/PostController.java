@@ -1,5 +1,7 @@
 package com.newtonduarte.blog_api.controllers;
 
+import com.newtonduarte.blog_api.domain.CreatePostRequest;
+import com.newtonduarte.blog_api.domain.dtos.CreatePostRequestDto;
 import com.newtonduarte.blog_api.domain.dtos.PostDto;
 import com.newtonduarte.blog_api.domain.entities.Post;
 import com.newtonduarte.blog_api.domain.entities.User;
@@ -7,6 +9,7 @@ import com.newtonduarte.blog_api.mappers.PostMapper;
 import com.newtonduarte.blog_api.services.PostService;
 import com.newtonduarte.blog_api.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +42,17 @@ public class PostController {
         List<PostDto> postDtos = draftPosts.stream().map(postMapper::toDto).toList();
 
         return ResponseEntity.ok(postDtos);
+    }
+
+    @PostMapping
+    public ResponseEntity<PostDto> createPost(
+            @RequestBody CreatePostRequestDto createPostRequestDto,
+            @RequestAttribute UUID userId
+    ) {
+        User loggedUser = userService.getUserById(userId);
+        CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDto);
+        Post createdPost = postService.createPost(loggedUser, createPostRequest);
+        PostDto createdPostDto = postMapper.toDto(createdPost);
+        return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
     }
 }
